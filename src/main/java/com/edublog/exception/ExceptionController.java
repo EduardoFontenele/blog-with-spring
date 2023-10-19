@@ -20,8 +20,9 @@ public class ExceptionController {
 
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<BusinessExceptionDto> handle(BusinessException ex) {
-        BusinessExceptionDto businessExceptionDto = new BusinessExceptionDto(ex.getHttpStatus(), ex.getMessage(), ex.getHttpStatusCode());
-        return ResponseEntity.status(ex.getHttpStatus()).body(businessExceptionDto);
+        return ResponseEntity
+                .status(ex.getHttpStatus())
+                .body(new BusinessExceptionDto(ex.getHttpStatus(), ex.getMessage(), ex.getHttpStatusCode()));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
