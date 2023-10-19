@@ -27,7 +27,6 @@ public class ExceptionController {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ValidationErrorDto> handle(MethodArgumentNotValidException ex) {
-        ValidationErrorDto dto = new ValidationErrorDto();
         Map<String, String> validationErrors = new HashMap<>();
 
         for(FieldError fieldError : ex.getFieldErrors()) {
@@ -37,8 +36,8 @@ public class ExceptionController {
             validationErrors.put(field, error);
         }
 
-        dto.setHttpStatus(HttpStatus.BAD_REQUEST);
-        dto.setValidationErrors(validationErrors);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(dto);
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new ValidationErrorDto(HttpStatus.BAD_REQUEST, validationErrors));
     }
 }
