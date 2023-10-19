@@ -2,6 +2,7 @@ package com.edublog.config;
 
 import com.edublog.domain.model.Account;
 import com.edublog.repository.AccountRepository;
+import com.edublog.validation.AccountValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;

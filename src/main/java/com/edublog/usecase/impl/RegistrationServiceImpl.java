@@ -18,11 +18,9 @@ public class RegistrationServiceImpl implements RegistrationService {
     private final AccountRepository accountRepository;
     private final AccountAdapter accountAdapter = AccountAdapter.INSTANCE;
     private final PasswordEncoder passwordEncoder;
-    private final AccountValidator accountValidator;
 
     @Override
     public AccountInfoDto registerAccount(AccountRegisterDto accountRegisterDto) {
-        accountValidator.validateUserRegistration(accountRegisterDto);
         String encodedPassword = passwordEncoder.encode(accountRegisterDto.getPassword());
         accountRepository.save(new Account(accountRegisterDto.getUsername(), encodedPassword, "USER"));
         return new AccountInfoDto(accountRegisterDto.getUsername());
