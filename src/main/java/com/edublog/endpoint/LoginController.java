@@ -25,7 +25,7 @@ public class LoginController {
     @PostMapping
     public ResponseEntity<AccountInfoDto> registerAccount(@Validated @RequestBody AccountRegisterDto dto) {
         if(accountValidator.checkIfUserExistsByUsername(dto.getUsername()))
-            throw new BusinessException(ExceptionsTemplate.RESOURCE_ALREADY_EXISTS, dto.getUsername());
+            throw new BusinessException(ExceptionsTemplate.USER_ALREADY_EXISTS, dto.getUsername());
         return ResponseEntity.ok(registrationService.registerAccount(dto));
     }
 

@@ -1,5 +1,6 @@
 package com.edublog.exception;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.ToString;
 import org.springframework.http.HttpStatus;
@@ -13,24 +14,24 @@ public class BusinessException extends RuntimeException {
     private final HttpStatus httpStatus;
     private final String message;
 
-    public BusinessException(ExceptionsTemplate exceptionsTemplate, String item, String message) {
-        super();
-        this.httpStatus = exceptionsTemplate.getHttpStatus();
-        this.message = exceptionsTemplate.getMessage().replace("[item]", item);
-        this.httpStatusCode = exceptionsTemplate.getHttpStatusCode();
-    }
-
     public BusinessException(ExceptionsTemplate exceptionsTemplate, String item) {
         super();
+        this.httpStatusCode = exceptionsTemplate.getHttpStatusCode();
         this.httpStatus = exceptionsTemplate.getHttpStatus();
         this.message = exceptionsTemplate.getMessage().replace("[item]", item);
-        this.httpStatusCode = exceptionsTemplate.getHttpStatusCode();
     }
 
     public BusinessException(ExceptionsTemplate exceptionsTemplate) {
         super();
+        this.httpStatusCode = exceptionsTemplate.getHttpStatusCode();
         this.httpStatus = exceptionsTemplate.getHttpStatus();
         this.message = exceptionsTemplate.getMessage();
+    }
+
+    public BusinessException(ExceptionsTemplate exceptionsTemplate, String item, String message) {
+        super();
         this.httpStatusCode = exceptionsTemplate.getHttpStatusCode();
+        this.httpStatus = exceptionsTemplate.getHttpStatus();
+        this.message = message;
     }
 }
