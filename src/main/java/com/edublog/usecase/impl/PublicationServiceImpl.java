@@ -24,22 +24,13 @@ public class PublicationServiceImpl implements PublicationService {
 
     @Override
     public PublicationPostDtoOutput createNewPublication(PublicationIPostDtoInput publication, String username) {
-        Publication savedPub = new Publication();
-        Account user = accountRepository.findByUsername(username)
+        Account user = accountRepository
+                .findByUsername(username)
                 .orElseThrow(() -> new BusinessException(ExceptionsTemplate.BAD_REQUEST));
 
-        savedPub.setBody(publication.getBody());
-        savedPub.setTitle(publication.getTitle());
-        savedPub.setAccount(user);
+        Publication savedPub = publicationRepository
+                .save(new Publication(publication.getBody(), publication.getTitle(), user));
 
-        publicationRepository.save(savedPub);
-
-        return PublicationPostDtoOutput.builder()
-                .title(publication.getTitle())
-                .body(publication.getBody())
-                .author(username)
-                .createdAt(DateUtils.formatDateTime(savedPub.getCreatedAt()))
-                .updatedAt(DateUtils.formatDateTime(savedPub.getUpdatedAt()))
-                .build();
+        return publicationMapper.toDto(savedPub);
     }
 }

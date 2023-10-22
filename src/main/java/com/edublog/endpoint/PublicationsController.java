@@ -28,7 +28,8 @@ public class PublicationsController {
             @RequestBody @Validated PublicationIPostDtoInput publicationIPostDtoInput,
             @CurrentSecurityContext(expression = "authentication") Authentication authentication
             ) {
-        return ResponseEntity.created(URI.create(""))
+        return ResponseEntity
+                .created(URI.create(""))
                 .body(publicationService.createNewPublication(publicationIPostDtoInput, authentication.getName()));
     }
 
