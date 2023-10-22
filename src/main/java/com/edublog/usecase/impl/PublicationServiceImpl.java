@@ -10,7 +10,6 @@ import com.edublog.exception.ExceptionsTemplate;
 import com.edublog.repository.AccountRepository;
 import com.edublog.repository.PublicationRepository;
 import com.edublog.usecase.PublicationService;
-import com.edublog.utils.DateUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,17 +19,13 @@ public class PublicationServiceImpl implements PublicationService {
 
     private final PublicationRepository publicationRepository;
     private final AccountRepository accountRepository;
-    public final PublicationAdapter publicationMapper = PublicationAdapter.INSTANCE;
+    public final PublicationAdapter publicationAdapter = PublicationAdapter.INSTANCE;
 
     @Override
     public PublicationPostDtoOutput createNewPublication(PublicationIPostDtoInput publication, String username) {
-        Account user = accountRepository
-                .findByUsername(username)
-                .orElseThrow(() -> new BusinessException(ExceptionsTemplate.BAD_REQUEST));
-
-        Publication savedPub = publicationRepository
-                .save(new Publication(publication.getBody(), publication.getTitle(), user));
-
-        return publicationMapper.toDto(savedPub);
+        Account user = accountRepository.findByUsername(username).orElseThrow(() ->
+                new BusinessException(ExceptionsTemplate.BAD_REQUEST));
+        Publication savedPub = publicationRepository.save(publicationAdapter.toEntity(publication, user));
+        return publicationAdapter.toDto(savedPub);
     }
 }

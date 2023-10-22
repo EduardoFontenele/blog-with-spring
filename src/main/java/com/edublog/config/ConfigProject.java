@@ -18,7 +18,7 @@ public class ConfigProject implements CommandLineRunner {
     public void run(String... args) throws Exception {
         accountRepository.save(Account.builder()
                         .role("ADMIN")
-                        .username("admin")
+                        .username("eduardo.fontenele")
                         .password(passwordEncoder.encode("admin123"))
                 .build());
     }
