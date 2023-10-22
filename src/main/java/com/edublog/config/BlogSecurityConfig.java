@@ -20,7 +20,7 @@ public class BlogSecurityConfig {
     DefaultSecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception{
         http.authorizeHttpRequests(req -> req
                 .requestMatchers("/register").permitAll()
-                .requestMatchers("/publications/*").authenticated()
+                .requestMatchers("/publications/*", "/principal/*").authenticated()
         );
         http.csrf(AbstractHttpConfigurer::disable);
         http.formLogin(Customizer.withDefaults());
