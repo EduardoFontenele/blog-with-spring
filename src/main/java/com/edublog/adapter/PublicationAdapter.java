@@ -10,5 +10,5 @@ public interface PublicationAdapter {
     PublicationAdapter INSTANCE = Mappers.getMapper(PublicationAdapter.class);
 
 
-    PublicationPostDtoOutput publicationEntityToPostDtoOutput(Publication entity);
+    PublicationPostDtoOutput toDto(Publication entity);
 }
