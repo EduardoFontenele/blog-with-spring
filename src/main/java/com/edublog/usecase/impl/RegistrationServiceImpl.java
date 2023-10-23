@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 public class RegistrationServiceImpl implements RegistrationService {
 
     private final AccountRepository accountRepository;
-    private final AccountAdapter accountAdapter = AccountAdapter.INSTANCE;
     private final PasswordEncoder passwordEncoder;
 
     @Override
