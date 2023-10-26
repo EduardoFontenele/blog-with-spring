@@ -1,7 +1,7 @@
 package com.edublog.usecase.impl;
 
 import com.edublog.adapter.PublicationAdapter;
-import com.edublog.domain.dto.publication.PublicationIPostDtoInput;
+import com.edublog.domain.dto.publication.PublicationPostDtoInput;
 import com.edublog.domain.dto.publication.PublicationPostDtoOutput;
 import com.edublog.domain.model.Account;
 import com.edublog.domain.model.Publication;
@@ -22,7 +22,7 @@ public class PublicationServiceImpl implements PublicationService {
     public final PublicationAdapter publicationAdapter = PublicationAdapter.INSTANCE;
 
     @Override
-    public PublicationPostDtoOutput createNewPublication(PublicationIPostDtoInput publication, String username) {
+    public PublicationPostDtoOutput createNewPublication(PublicationPostDtoInput publication, String username) {
         Account user = accountRepository.findByUsername(username).orElseThrow(() ->
                 new BusinessException(ExceptionsTemplate.BAD_REQUEST));
         Publication savedPub = publicationRepository.save(publicationAdapter.toEntity(publication, user));

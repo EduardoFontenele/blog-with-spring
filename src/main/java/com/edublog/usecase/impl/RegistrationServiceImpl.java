@@ -1,6 +1,5 @@
 package com.edublog.usecase.impl;
 
-import com.edublog.adapter.AccountAdapter;
 import com.edublog.domain.dto.account.AccountInfoDto;
 import com.edublog.domain.dto.account.AccountRegisterDto;
 import com.edublog.domain.model.Account;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Service;
 public class RegistrationServiceImpl implements RegistrationService {
 
     private final AccountRepository accountRepository;
-    private final AccountAdapter accountAdapter = AccountAdapter.INSTANCE;
     private final PasswordEncoder passwordEncoder;
 
     @Override

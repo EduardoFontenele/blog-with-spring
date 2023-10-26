@@ -1,6 +1,6 @@
 package com.edublog.adapter;
 
-import com.edublog.domain.dto.publication.PublicationIPostDtoInput;
+import com.edublog.domain.dto.publication.PublicationPostDtoInput;
 import com.edublog.domain.dto.publication.PublicationPostDtoOutput;
 import com.edublog.domain.model.Account;
 import com.edublog.domain.model.Publication;
@@ -19,7 +19,7 @@ public abstract class PublicationAdapter {
     @Mapping(source = "account.username", target = "author")
     public abstract PublicationPostDtoOutput toDto(Publication entity);
 
-    public Publication toEntity(PublicationIPostDtoInput dto, Account account) {
+    public Publication toEntity(PublicationPostDtoInput dto, Account account) {
         return new Publication(dto.getTitle(), dto.getBody(), account);
     }
 }
