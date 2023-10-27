@@ -1,7 +1,5 @@
 package com.edublog.domain.dto.article;
 
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,7 +11,11 @@ import lombok.Setter;
 @Builder
 @Getter
 @Setter
-public class ArticlePostDtoInput {
+public class ArticlePatchDtoOutput {
+    private Long id;
     private String title;
     private String body;
+    private String createdAt;
+    private String updatedAt;
+    private String author;
 }

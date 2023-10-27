@@ -1,6 +1,7 @@
 package com.edublog.mapper;
 
 import com.edublog.domain.dto.article.ArticleGetDto;
+import com.edublog.domain.dto.article.ArticlePatchDtoOutput;
 import com.edublog.domain.dto.article.ArticlePostDtoInput;
 import com.edublog.domain.dto.article.ArticlePostDtoOutput;
 import com.edublog.domain.model.Account;
@@ -31,6 +32,14 @@ public abstract class ArticleMapper {
     @Mapping(source = "updatedAt", target = "updatedAt", qualifiedByName = "formatDateTime")
     @Mapping(source = "account.username", target = "author")
     public abstract ArticleGetDto toGetDto(Article entity);
+
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "title", target = "title")
+    @Mapping(source = "body", target = "body")
+    @Mapping(source = "createdAt", target = "createdAt", qualifiedByName = "formatDateTime")
+    @Mapping(source = "updatedAt", target = "updatedAt", qualifiedByName = "formatDateTime")
+    @Mapping(source = "account.username", target = "author")
+    public abstract ArticlePatchDtoOutput toPatchOutputDto(Article entity);
 
     public Article toEntity(ArticlePostDtoInput dto, Account account) {
         return new Article(dto.getTitle(), dto.getBody(), account);

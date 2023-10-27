@@ -1,6 +1,8 @@
 package com.edublog.endpoint;
 
 import com.edublog.domain.dto.article.ArticleGetDto;
+import com.edublog.domain.dto.article.ArticlePatchDtoInput;
+import com.edublog.domain.dto.article.ArticlePatchDtoOutput;
 import com.edublog.domain.dto.article.ArticlePostDtoInput;
 import com.edublog.domain.dto.article.ArticlePostDtoOutput;
 import com.edublog.usecase.ArticleService;
@@ -30,7 +32,7 @@ public class ArticlesController {
     private final ArticleService articleService;
 
     @PostMapping("/create_new")
-    public ResponseEntity<ArticlePostDtoOutput> createNewPublication(
+    public ResponseEntity<ArticlePostDtoOutput> createNewArticle(
             @RequestBody @Validated ArticlePostDtoInput publicationIPostDtoInput,
             @CurrentSecurityContext(expression = "authentication") Authentication authentication
             ) {
@@ -48,5 +50,10 @@ public class ArticlesController {
     }
 
     @PatchMapping("/update_by_id/{id}")
-    public ResponseEntity<ArticleGetDto> updateById(@PathVariable("id") Long id) {return null;}
+    public ResponseEntity<ArticlePatchDtoOutput> updateById(
+            @PathVariable("id") Long id,
+            @Validated @RequestBody ArticlePatchDtoInput dtoInput
+    ) {
+        return ResponseEntity.ok(articleService.updateArticle(dtoInput, id));
+    }
 }

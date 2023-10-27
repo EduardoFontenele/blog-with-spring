@@ -16,10 +16,12 @@ public class ConfigProject implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        accountRepository.save(Account.builder()
-                        .role("ADMIN")
-                        .username("eduardo.fontenele")
-                        .password(passwordEncoder.encode("admin123"))
-                .build());
+        if(accountRepository.count() < 2) {
+            accountRepository.save(Account.builder()
+                    .role("ADMIN")
+                    .username("eduardo.fontenele")
+                    .password(passwordEncoder.encode("admin123"))
+                    .build());
+        }
     }
 }
