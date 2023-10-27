@@ -12,6 +12,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +29,7 @@ public class PublicationsController {
 
     private final PublicationService publicationService;
 
-    @PostMapping("/createNewPublication")
+    @PostMapping("/create_new")
     public ResponseEntity<PublicationPostDtoOutput> createNewPublication(
             @RequestBody @Validated PublicationPostDtoInput publicationIPostDtoInput,
             @CurrentSecurityContext(expression = "authentication") Authentication authentication
@@ -37,7 +39,7 @@ public class PublicationsController {
                 .body(publicationService.createNewPublication(publicationIPostDtoInput, authentication.getName()));
     }
 
-    @GetMapping("/listAll")
+    @GetMapping("/list_all")
     public ResponseEntity<Page<PublicationGetDto>> listAll(
             @CurrentSecurityContext(expression = "authentication") Authentication authentication,
             @Validated @RequestParam(required = false) @Min(1) Integer pageNumber,
@@ -45,5 +47,6 @@ public class PublicationsController {
         return ResponseEntity.ok(publicationService.listAllPublications(authentication.getName(), pageNumber, pageSize));
     }
 
-
+    @PatchMapping("/update_by_id/{id}")
+    public ResponseEntity<PublicationGetDto> updateById(@PathVariable("id") Long id) {return null;}
 }

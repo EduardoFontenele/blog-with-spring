@@ -36,9 +36,7 @@ public class PublicationServiceImpl implements PublicationService {
     @Override
     public Page<PublicationGetDto> listAllPublications(String author, Integer pageNumber, Integer pageSize) {
         PageRequest pageRequest = Pagination.buildPageRequest(pageNumber, pageSize);
-        Page<PublicationGetDto> page;
-        page = publicationRepository.findAll(pageRequest).map(publicationAdapter::toGetDto);
-        return page;
+        return publicationRepository.findAll(pageRequest).map(publicationAdapter::toGetDto);
     }
 
 }
