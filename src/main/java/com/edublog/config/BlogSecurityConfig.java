@@ -15,8 +15,8 @@ public class BlogSecurityConfig {
     @Bean
     DefaultSecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception{
         http.authorizeHttpRequests(req -> req
-                .requestMatchers("/register", "/publications/list_all").permitAll()
-                .requestMatchers("/publications/create_new" ).authenticated()
+                .requestMatchers("/register", "/articles/list_all").permitAll()
+                .requestMatchers("/articles/create_new" ).authenticated()
         );
         http.csrf(AbstractHttpConfigurer::disable);
         http.cors(Customizer.withDefaults());

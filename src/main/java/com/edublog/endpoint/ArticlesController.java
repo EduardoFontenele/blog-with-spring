@@ -1,9 +1,9 @@
 package com.edublog.endpoint;
 
-import com.edublog.domain.dto.publication.PublicationGetDto;
-import com.edublog.domain.dto.publication.PublicationPostDtoInput;
-import com.edublog.domain.dto.publication.PublicationPostDtoOutput;
-import com.edublog.usecase.PublicationService;
+import com.edublog.domain.dto.article.ArticleGetDto;
+import com.edublog.domain.dto.article.ArticlePostDtoInput;
+import com.edublog.domain.dto.article.ArticlePostDtoOutput;
+import com.edublog.usecase.ArticleService;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,29 +24,29 @@ import java.net.URI;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/publications")
-public class PublicationsController {
+@RequestMapping("/articles")
+public class ArticlesController {
 
-    private final PublicationService publicationService;
+    private final ArticleService articleService;
 
     @PostMapping("/create_new")
-    public ResponseEntity<PublicationPostDtoOutput> createNewPublication(
-            @RequestBody @Validated PublicationPostDtoInput publicationIPostDtoInput,
+    public ResponseEntity<ArticlePostDtoOutput> createNewPublication(
+            @RequestBody @Validated ArticlePostDtoInput publicationIPostDtoInput,
             @CurrentSecurityContext(expression = "authentication") Authentication authentication
             ) {
         return ResponseEntity
                 .created(URI.create(""))
-                .body(publicationService.createNewPublication(publicationIPostDtoInput, authentication.getName()));
+                .body(articleService.createNewArticle(publicationIPostDtoInput, authentication.getName()));
     }
 
     @GetMapping("/list_all")
-    public ResponseEntity<Page<PublicationGetDto>> listAll(
+    public ResponseEntity<Page<ArticleGetDto>> listAll(
             @CurrentSecurityContext(expression = "authentication") Authentication authentication,
             @Validated @RequestParam(required = false) @Min(1) Integer pageNumber,
             @Validated @RequestParam(required = false) @Min(1) Integer pageSize) {
-        return ResponseEntity.ok(publicationService.listAllPublications(authentication.getName(), pageNumber, pageSize));
+        return ResponseEntity.ok(articleService.listAllArticles(authentication.getName(), pageNumber, pageSize));
     }
 
     @PatchMapping("/update_by_id/{id}")
-    public ResponseEntity<PublicationGetDto> updateById(@PathVariable("id") Long id) {return null;}
+    public ResponseEntity<ArticleGetDto> updateById(@PathVariable("id") Long id) {return null;}
 }

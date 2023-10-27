@@ -1,22 +1,24 @@
-package com.edublog.domain.dto.publication;
+package com.edublog.domain.dto.article;
 
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Getter
 @Setter
-public class PublicationPostDtoOutput {
+public class ArticlePostDtoInput {
+    @NotNull
+    @Size(max = 500)
     private String title;
+
+    @NotNull
+    @Size(min = 10)
     private String body;
-    private String createdAt;
-    private String updatedAt;
-    private String author;
 }

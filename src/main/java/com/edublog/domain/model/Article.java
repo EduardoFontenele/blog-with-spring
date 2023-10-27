@@ -5,7 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,7 +22,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Entity
-public class Publication {
+public class Article {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -43,7 +42,7 @@ public class Publication {
     @ManyToOne
     private Account account;
 
-    public Publication(String title, String body, Account account) {
+    public Article(String title, String body, Account account) {
         this.title = title;
         this.body = body;
         this.account = account;

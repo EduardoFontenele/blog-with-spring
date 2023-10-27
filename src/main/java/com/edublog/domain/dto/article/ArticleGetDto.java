@@ -1,4 +1,4 @@
-package com.edublog.domain.dto.publication;
+package com.edublog.domain.dto.article;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import lombok.Setter;
 @Builder
 @Getter
 @Setter
-public class PublicationGetDto {
+public class ArticleGetDto {
     private Long id;
     private String title;
     private String body;
