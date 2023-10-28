@@ -11,4 +11,5 @@ public interface ArticleService {
     ArticlePostDtoOutput createNewArticle(ArticlePostDtoInput publication, String username);
     Page<ArticleGetDto> listAllArticles(String author, Integer pageNumber, Integer pageSize);
     ArticlePatchDtoOutput updateArticle(ArticlePatchDtoInput input, Long id);
+    void deleteById(Long id);
 }

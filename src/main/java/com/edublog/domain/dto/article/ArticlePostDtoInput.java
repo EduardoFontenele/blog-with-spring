@@ -14,6 +14,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ArticlePostDtoInput {
+    @NotNull
+    @Size(max = 500)
     private String title;
+    @NotNull
+    @Size(min = 10)
     private String body;
 }

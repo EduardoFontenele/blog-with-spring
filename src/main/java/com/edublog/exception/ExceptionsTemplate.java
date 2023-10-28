@@ -7,8 +7,8 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 @Getter
 public enum ExceptionsTemplate {
-
     USER_ALREADY_EXISTS(HttpStatus.CONFLICT, "User with username '[item]' already exists", 409),
+    RESOURCE_NOT_FOUND(HttpStatus.NOT_FOUND, "Resource not found", 404),
     BAD_REQUEST(HttpStatus.BAD_REQUEST, "Invalid operation. Please, try again", 400);
 
     private final HttpStatus httpStatus;
