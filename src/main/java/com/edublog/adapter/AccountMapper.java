@@ -1,4 +1,4 @@
-package com.edublog.mapper;
+package com.edublog.adapter;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

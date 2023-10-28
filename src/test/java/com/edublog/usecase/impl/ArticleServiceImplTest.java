@@ -1,6 +1,6 @@
 package com.edublog.usecase.impl;
 
-import com.edublog.mapper.ArticleMapper;
+import com.edublog.adapter.ArticleMapper;
 import com.edublog.domain.dto.article.ArticlePostDtoInput;
 import com.edublog.domain.model.Account;
 import com.edublog.domain.model.Article;

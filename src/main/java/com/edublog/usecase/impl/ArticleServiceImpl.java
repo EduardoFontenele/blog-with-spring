@@ -2,7 +2,7 @@ package com.edublog.usecase.impl;
 
 import com.edublog.domain.dto.article.ArticlePatchDtoInput;
 import com.edublog.domain.dto.article.ArticlePatchDtoOutput;
-import com.edublog.mapper.ArticleMapper;
+import com.edublog.adapter.ArticleMapper;
 import com.edublog.domain.dto.article.ArticleGetDto;
 import com.edublog.domain.dto.article.ArticlePostDtoInput;
 import com.edublog.domain.dto.article.ArticlePostDtoOutput;

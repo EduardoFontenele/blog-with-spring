@@ -1,4 +1,4 @@
-package com.edublog.mapper;
+package com.edublog.adapter;
 
 import com.edublog.domain.dto.article.ArticleGetDto;
 import com.edublog.domain.dto.article.ArticlePatchDtoOutput;
