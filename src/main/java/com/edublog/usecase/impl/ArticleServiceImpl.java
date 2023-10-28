@@ -61,9 +61,16 @@ public class ArticleServiceImpl implements ArticleService {
             articleRepository.save(foundArticle);
         });
 
-        System.out.println(article.get().toString());
-
         return articleMapper.toPatchOutputDto(article.get());
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        Article foundArticle = articleRepository
+                .findById(id)
+                .orElseThrow(() -> new BusinessException(ExceptionsTemplate.RESOURCE_NOT_FOUND));
+
+        articleRepository.delete(foundArticle);
     }
 
 }

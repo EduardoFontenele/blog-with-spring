@@ -12,6 +12,7 @@ import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Mapper
@@ -20,24 +21,24 @@ public abstract class ArticleMapper {
 
     @Mapping(source = "title", target = "title")
     @Mapping(source = "body", target = "body")
-    @Mapping(source = "createdAt", target = "createdAt", qualifiedByName = "formatDateTime")
-    @Mapping(source = "updatedAt", target = "updatedAt", qualifiedByName = "formatDateTime")
+    @Mapping(source = "createdAt", target = "createdAt", qualifiedByName = "formatLocalDateTime")
+    @Mapping(source = "updatedAt", target = "updatedAt", qualifiedByName = "formatLocalDateTime")
     @Mapping(source = "account.username", target = "author")
     public abstract ArticlePostDtoOutput toPostOutputDto(Article entity);
 
     @Mapping(source = "id", target = "id")
     @Mapping(source = "title", target = "title")
     @Mapping(source = "body", target = "body")
-    @Mapping(source = "createdAt", target = "createdAt", qualifiedByName = "formatDateTime")
-    @Mapping(source = "updatedAt", target = "updatedAt", qualifiedByName = "formatDateTime")
+    @Mapping(source = "createdAt", target = "createdAt", qualifiedByName = "formatLocalDateTime")
+    @Mapping(source = "updatedAt", target = "updatedAt", qualifiedByName = "formatLocalDateTime")
     @Mapping(source = "account.username", target = "author")
     public abstract ArticleGetDto toGetDto(Article entity);
 
     @Mapping(source = "id", target = "id")
     @Mapping(source = "title", target = "title")
     @Mapping(source = "body", target = "body")
-    @Mapping(source = "createdAt", target = "createdAt", qualifiedByName = "formatDateTime")
-    @Mapping(source = "updatedAt", target = "updatedAt", qualifiedByName = "formatDateTime")
+    @Mapping(source = "createdAt", target = "createdAt", qualifiedByName = "formatLocalDateTime")
+    @Mapping(source = "updatedAt", target = "updatedAt", qualifiedByName = "formatLocalDateTime")
     @Mapping(source = "account.username", target = "author")
     public abstract ArticlePatchDtoOutput toPatchOutputDto(Article entity);
 
@@ -45,9 +46,9 @@ public abstract class ArticleMapper {
         return new Article(dto.getTitle(), dto.getBody(), account);
     }
 
-    @Named("formatDateTime")
-    public String formatDateTime(LocalDate localDate) {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    @Named("formatLocalDateTime")
+    public String formatDateTime(LocalDateTime localDate) {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         return dateTimeFormatter.format(localDate);
     }
 
