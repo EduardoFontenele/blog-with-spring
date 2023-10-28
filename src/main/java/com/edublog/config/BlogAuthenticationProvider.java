@@ -1,6 +1,7 @@
 package com.edublog.config;
 
 import com.edublog.domain.model.Account;
+import com.edublog.domain.model.Authority;
 import com.edublog.repository.AccountRepository;
 import com.edublog.validation.AccountValidator;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
@@ -33,15 +35,21 @@ public class BlogAuthenticationProvider implements AuthenticationProvider {
         if(accountRepository.findByUsername(userName).isPresent()) {
             account = accountRepository.findByUsername(userName).get();
             if(passwordEncoder.matches(pwd, account.getPassword())) {
-                List<GrantedAuthority> authorities = new ArrayList<>();
-                authorities.add(new SimpleGrantedAuthority(account.getRole()));
-                return new UsernamePasswordAuthenticationToken(userName, pwd, authorities);
+                return new UsernamePasswordAuthenticationToken(userName, pwd, getGrantedAuthorities(account.getAuthorities()));
             } else {
                 throw new BadCredentialsException("Invalid password");
             }
         } else {
             throw new BadCredentialsException("User not found");
         }
+    }
+
+    private List<GrantedAuthority> getGrantedAuthorities(Set<Authority> authorities) {
+        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+        for(Authority authority : authorities) {
+            grantedAuthorities.add(new SimpleGrantedAuthority(authority.getType().toString()));
+        }
+        return grantedAuthorities;
     }
 
     @Override

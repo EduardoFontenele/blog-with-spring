@@ -2,13 +2,18 @@ package com.edublog.usecase.impl;
 
 import com.edublog.domain.dto.account.AccountInfoDto;
 import com.edublog.domain.dto.account.AccountRegisterDto;
+import com.edublog.domain.enums.AuthorityTable;
 import com.edublog.domain.model.Account;
+import com.edublog.domain.model.Authority;
 import com.edublog.repository.AccountRepository;
 import com.edublog.usecase.RegistrationService;
 import com.edublog.validation.AccountValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -20,7 +25,12 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Override
     public AccountInfoDto registerAccount(AccountRegisterDto accountRegisterDto) {
         String encodedPassword = passwordEncoder.encode(accountRegisterDto.getPassword());
-        accountRepository.save(new Account(accountRegisterDto.getUsername(), encodedPassword, "USER"));
+
+        Set<Authority> authorities = new HashSet<>();
+        authorities.add(Authority.builder().type(AuthorityTable.USER).build());
+
+        accountRepository.save(new Account(accountRegisterDto.getUsername(), encodedPassword, authorities));
+
         return new AccountInfoDto(accountRegisterDto.getUsername());
     }
 }
