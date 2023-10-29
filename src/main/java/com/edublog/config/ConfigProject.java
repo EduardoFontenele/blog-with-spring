@@ -26,28 +26,32 @@ public class ConfigProject implements CommandLineRunner {
     public void run(String... args) throws Exception {
         if(authorityRepository.count() < 3) {
             Authority adminAuthority = authorityRepository.save(Authority.builder().type(AuthorityTable.ROLE_ADMIN.toString()).build());
+            Authority moderatorAuthority = authorityRepository.save(Authority.builder().type(AuthorityTable.ROLE_MODERATOR.toString()).build());
             Authority userAuthority = authorityRepository.save(Authority.builder().type(AuthorityTable.ROLE_USER.toString()).build());
 
-            authorityRepository.saveAll(Arrays.asList(adminAuthority, userAuthority));
+
+            authorityRepository.saveAll(Arrays.asList(adminAuthority, userAuthority, userAuthority));
         }
 
         if(accountRepository.count() < 2) {
-            Set<Authority> authorities1 = new HashSet<>();
-            authorities1.add(authorityRepository.findByType(AuthorityTable.ROLE_USER.toString()));
+            Authority authority1 = authorityRepository.findByType(AuthorityTable.ROLE_ADMIN.toString());
+            Authority authority2 = authorityRepository.findByType(AuthorityTable.ROLE_MODERATOR.toString());
+            Authority authority3 = authorityRepository.findByType(AuthorityTable.ROLE_USER.toString());
 
-            Account account1 = accountRepository.save(Account.builder()
-                        .authorities(authorities1)
-                        .username("eduardo.fontenele")
-                        .password(passwordEncoder.encode("admin123"))
+            accountRepository.save(Account.builder()
+                    .authority(authority1)
+                    .username("eduardo.fontenele")
+                    .password(passwordEncoder.encode("admin123"))
                     .build());
-
-            Set<Authority> authorities2 = new HashSet<>();
-            authorities2.add(authorityRepository.findByType(AuthorityTable.ROLE_USER.toString()));
-
-            Account account2 = accountRepository.save(Account.builder()
-                            .authorities(authorities2)
-                            .username("john.doe")
-                            .password(passwordEncoder.encode("user123"))
+            accountRepository.save(Account.builder()
+                    .authority(authority2)
+                    .username("john.doe")
+                    .password(passwordEncoder.encode("mod123"))
+                    .build());
+            accountRepository.save(Account.builder()
+                    .authority(authority3)
+                    .username("zeh_da_manga")
+                    .password(passwordEncoder.encode("user123"))
                     .build());
         }
     }

@@ -12,6 +12,9 @@ import org.springframework.security.web.DefaultSecurityFilterChain;
 
 @Configuration
 public class BlogSecurityConfig {
+    private final String ADMIN = AuthorityTable.ROLE_ADMIN.getRole();
+    private final String MOD = AuthorityTable.ROLE_MODERATOR.getRole();
+    private final String USER = AuthorityTable.ROLE_USER.getRole();
 
     @Bean
     DefaultSecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception{
@@ -22,9 +25,9 @@ public class BlogSecurityConfig {
                 ).permitAll()
                 .requestMatchers(
                         "/articles/create_new",
-                        "articles/update_by_id/*",
-                        "articles/delete_by_id/*"
-                ).hasAnyRole(AuthorityTable.ROLE_USER.getRole(), AuthorityTable.ROLE_ADMIN.getRole())
+                        "/articles/update_by_id/*",
+                        "/articles/delete_by_id/*"
+                ).hasAnyRole(ADMIN, MOD, USER)
         );
         http.csrf(AbstractHttpConfigurer::disable);
         http.cors(Customizer.withDefaults());

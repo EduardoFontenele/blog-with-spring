@@ -8,8 +8,10 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -38,12 +40,12 @@ public class Account {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Authority> authorities;
+    @OneToOne
+    private Authority authority;
 
-    public Account(String username, String password, Set<Authority> authorities) {
+    public Account(String username, String password, Authority authority) {
         this.username = username;
         this.password = password;
-        this.authorities = authorities;
+        this.authority = authority;
     }
 }
