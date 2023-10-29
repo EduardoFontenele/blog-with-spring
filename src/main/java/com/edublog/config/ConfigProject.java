@@ -30,7 +30,7 @@ public class ConfigProject implements CommandLineRunner {
             Authority userAuthority = authorityRepository.save(Authority.builder().type(AuthorityTable.ROLE_USER.toString()).build());
 
 
-            authorityRepository.saveAll(Arrays.asList(adminAuthority, userAuthority, userAuthority));
+            authorityRepository.saveAll(Arrays.asList(adminAuthority, userAuthority, moderatorAuthority));
         }
 
         if(accountRepository.count() < 2) {

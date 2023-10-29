@@ -66,11 +66,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public void deleteById(Long id) {
-        Article foundArticle = articleRepository
-                .findById(id)
-                .orElseThrow(() -> new BusinessException(ExceptionsTemplate.RESOURCE_NOT_FOUND));
-
-        articleRepository.delete(foundArticle);
+        articleRepository.deleteById(id);
     }
 
 }

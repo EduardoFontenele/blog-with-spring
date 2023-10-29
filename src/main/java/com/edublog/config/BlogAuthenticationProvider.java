@@ -35,7 +35,7 @@ public class BlogAuthenticationProvider implements AuthenticationProvider {
         if(accountRepository.findByUsername(userName).isPresent()) {
             account = accountRepository.findByUsername(userName).get();
             if(passwordEncoder.matches(pwd, account.getPassword())) {
-                return new UsernamePasswordAuthenticationToken(userName, pwd, getGrantedAuthorities(account.getAuthority()));
+                return new UsernamePasswordAuthenticationToken(userName, pwd, getGrantedAuthoritie(account.getAuthority()));
             } else {
                 throw new BadCredentialsException("Invalid password");
             }
@@ -44,7 +44,7 @@ public class BlogAuthenticationProvider implements AuthenticationProvider {
         }
     }
 
-    private List<GrantedAuthority> getGrantedAuthorities(Authority authority) {
+    private List<GrantedAuthority> getGrantedAuthoritie(Authority authority) {
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
         grantedAuthorities.add(new SimpleGrantedAuthority(authority.getType()));
         return grantedAuthorities;

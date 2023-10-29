@@ -5,7 +5,10 @@ import com.edublog.domain.dto.article.ArticlePatchDtoInput;
 import com.edublog.domain.dto.article.ArticlePatchDtoOutput;
 import com.edublog.domain.dto.article.ArticlePostDtoInput;
 import com.edublog.domain.dto.article.ArticlePostDtoOutput;
+import com.edublog.exception.BusinessException;
+import com.edublog.exception.ExceptionsTemplate;
 import com.edublog.usecase.ArticleService;
+import com.edublog.validation.ArticleValidator;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -33,6 +36,7 @@ import java.net.URI;
 public class ArticlesController {
 
     private final ArticleService articleService;
+    private final ArticleValidator articleValidator;
 
     @PostMapping("/create_new")
     public ResponseEntity<ArticlePostDtoOutput> createNewArticle(
@@ -57,12 +61,14 @@ public class ArticlesController {
             @PathVariable("id") Long id,
             @Validated @RequestBody ArticlePatchDtoInput dtoInput
     ) {
+        if(!articleValidator.articleExistsInDatabase(id)) throw new BusinessException(ExceptionsTemplate.RESOURCE_NOT_FOUND);
         return ResponseEntity.ok(articleService.updateArticle(dtoInput, id));
     }
 
     @DeleteMapping("/delete_by_id/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteById(@PathVariable("id") Long id) {
+        if(!articleValidator.articleExistsInDatabase(id)) throw new BusinessException(ExceptionsTemplate.RESOURCE_NOT_FOUND);
         articleService.deleteById(id);
     }
 }
