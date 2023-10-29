@@ -2,8 +2,9 @@ package com.edublog.config;
 
 import com.edublog.domain.model.Account;
 import com.edublog.domain.model.Authority;
+import com.edublog.exception.BusinessException;
+import com.edublog.exception.ExceptionsTemplate;
 import com.edublog.repository.AccountRepository;
-import com.edublog.validation.AccountValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -17,7 +18,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
@@ -35,7 +35,7 @@ public class BlogAuthenticationProvider implements AuthenticationProvider {
         if(accountRepository.findByUsername(userName).isPresent()) {
             account = accountRepository.findByUsername(userName).get();
             if(passwordEncoder.matches(pwd, account.getPassword())) {
-                return new UsernamePasswordAuthenticationToken(userName, pwd, getGrantedAuthoritie(account.getAuthority()));
+                return new UsernamePasswordAuthenticationToken(userName, pwd, getGrantedAuthority(account.getAuthority()));
             } else {
                 throw new BadCredentialsException("Invalid password");
             }
@@ -44,7 +44,7 @@ public class BlogAuthenticationProvider implements AuthenticationProvider {
         }
     }
 
-    private List<GrantedAuthority> getGrantedAuthoritie(Authority authority) {
+    private List<GrantedAuthority> getGrantedAuthority(Authority authority) {
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
         grantedAuthorities.add(new SimpleGrantedAuthority(authority.getType()));
         return grantedAuthorities;
