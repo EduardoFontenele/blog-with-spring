@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Component
@@ -24,34 +25,22 @@ public class ConfigProject implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        if(authorityRepository.count() < 3) {
+        if(authorityRepository.count() < 1) {
             Authority adminAuthority = authorityRepository.save(Authority.builder().type(AuthorityTable.ROLE_ADMIN.toString()).build());
-            Authority moderatorAuthority = authorityRepository.save(Authority.builder().type(AuthorityTable.ROLE_MODERATOR.toString()).build());
-            Authority userAuthority = authorityRepository.save(Authority.builder().type(AuthorityTable.ROLE_USER.toString()).build());
-
-
-            authorityRepository.saveAll(Arrays.asList(adminAuthority, userAuthority, moderatorAuthority));
+            authorityRepository.saveAll(List.of(adminAuthority));
         }
 
-        if(accountRepository.count() < 2) {
+        if(accountRepository.count() < 1) {
             Authority authority1 = authorityRepository.findByType(AuthorityTable.ROLE_ADMIN.toString());
-            Authority authority2 = authorityRepository.findByType(AuthorityTable.ROLE_MODERATOR.toString());
-            Authority authority3 = authorityRepository.findByType(AuthorityTable.ROLE_USER.toString());
+
+            Set<Authority> authorities1 = new HashSet<>();
+            authorities1.add(authority1);
 
             accountRepository.save(Account.builder()
-                    .authority(authority1)
                     .username("eduardo.fontenele")
                     .password(passwordEncoder.encode("admin123"))
-                    .build());
-            accountRepository.save(Account.builder()
-                    .authority(authority2)
-                    .username("john.doe")
-                    .password(passwordEncoder.encode("mod123"))
-                    .build());
-            accountRepository.save(Account.builder()
-                    .authority(authority3)
-                    .username("zeh_da_manga")
-                    .password(passwordEncoder.encode("user123"))
+                    .isEnabled(true)
+                    .authorities(authorities1)
                     .build());
         }
     }

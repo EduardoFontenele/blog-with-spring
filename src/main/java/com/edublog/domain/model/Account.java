@@ -40,12 +40,18 @@ public class Account {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @OneToOne
-    private Authority authority;
+    @JsonIgnore
+    private Boolean isEnabled;
 
-    public Account(String username, String password, Authority authority) {
+    @OneToMany(fetch = FetchType.EAGER)
+    @JsonIgnore
+    private Set<Authority> authorities;
+
+    public Account(String username, String password, Set<Authority> authorities) {
         this.username = username;
         this.password = password;
-        this.authority = authority;
+        this.authorities = authorities;
+        this.isEnabled = true;
     }
+
 }

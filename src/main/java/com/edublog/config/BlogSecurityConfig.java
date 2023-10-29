@@ -20,13 +20,13 @@ public class BlogSecurityConfig {
     DefaultSecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception{
         http.authorizeHttpRequests(req -> req
                 .requestMatchers(
-                        "/register",
-                        "/articles/list_all"
+                        "api/accounts/register",
+                        "api/articles/list_all"
                 ).permitAll()
                 .requestMatchers(
-                        "/articles/create_new",
-                        "/articles/update_by_id/*",
-                        "/articles/delete_by_id/*"
+                        "api/articles/create_new",
+                        "api/articles/update_by_id/*",
+                        "api/articles/delete_by_id/*"
                 ).hasAnyRole(ADMIN, MOD, USER)
         );
         http.csrf(AbstractHttpConfigurer::disable);

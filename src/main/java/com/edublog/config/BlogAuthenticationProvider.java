@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
@@ -34,8 +35,11 @@ public class BlogAuthenticationProvider implements AuthenticationProvider {
 
         if(accountRepository.findByUsername(userName).isPresent()) {
             account = accountRepository.findByUsername(userName).get();
+
+            if(!account.getIsEnabled()) throw new BusinessException(ExceptionsTemplate.USER_IS_BANNED);
+
             if(passwordEncoder.matches(pwd, account.getPassword())) {
-                return new UsernamePasswordAuthenticationToken(userName, pwd, getGrantedAuthority(account.getAuthority()));
+                return new UsernamePasswordAuthenticationToken(userName, pwd, getGrantedAuthorities(account.getAuthorities()));
             } else {
                 throw new BadCredentialsException("Invalid password");
             }
@@ -44,9 +48,11 @@ public class BlogAuthenticationProvider implements AuthenticationProvider {
         }
     }
 
-    private List<GrantedAuthority> getGrantedAuthority(Authority authority) {
+    private List<GrantedAuthority> getGrantedAuthorities(Set<Authority> authorities) {
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-        grantedAuthorities.add(new SimpleGrantedAuthority(authority.getType()));
+        for (Authority authority : authorities) {
+            grantedAuthorities.add(new SimpleGrantedAuthority(authority.getType()));
+        }
         return grantedAuthorities;
     }
 

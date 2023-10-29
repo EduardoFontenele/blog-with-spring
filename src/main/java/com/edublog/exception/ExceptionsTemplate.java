@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 @Getter
 public enum ExceptionsTemplate {
     USER_ALREADY_EXISTS(HttpStatus.CONFLICT, "User with username '[item]' already exists", 409),
+    USER_IS_BANNED(HttpStatus.UNAUTHORIZED, "User is blocked from system", 401),
     RESOURCE_NOT_FOUND(HttpStatus.NOT_FOUND, "Resource not found", 404),
     BAD_REQUEST(HttpStatus.BAD_REQUEST, "Invalid operation. Please, try again", 400);
 
