@@ -32,7 +32,7 @@ import java.net.URI;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/articles")
+@RequestMapping("api/articles")
 public class ArticlesController {
 
     private final ArticleService articleService;

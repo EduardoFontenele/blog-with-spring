@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/register")
-public class LoginController {
+@RequestMapping("api/accounts")
+public class AccountsController {
 
     private final RegistrationService registrationService;
     private final AccountValidator accountValidator;
 
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity<AccountInfoDto> registerAccount(@Validated @RequestBody AccountRegisterDto dto) {
         if(accountValidator.userExistsInDatabase(dto.getUsername()))
             throw new BusinessException(ExceptionsTemplate.USER_ALREADY_EXISTS, dto.getUsername());
