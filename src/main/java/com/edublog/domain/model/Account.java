@@ -40,7 +40,6 @@ public class Account {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @JsonIgnore
     private Boolean isEnabled;
 
     @OneToMany(fetch = FetchType.EAGER)

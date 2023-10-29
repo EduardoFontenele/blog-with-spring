@@ -28,6 +28,10 @@ public class BlogSecurityConfig {
                         "api/articles/update_by_id/*",
                         "api/articles/delete_by_id/*"
                 ).hasAnyRole(ADMIN, MOD, USER)
+                .requestMatchers(
+                        "api/accounts/disable_by_id/*",
+                        "api/accounts/delete_by_id/*"
+                ).hasRole(ADMIN)
         );
         http.csrf(AbstractHttpConfigurer::disable);
         http.cors(Customizer.withDefaults());

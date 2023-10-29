@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -35,6 +36,17 @@ public class RegistrationServiceImpl implements RegistrationService {
         authorityRepository.save(authority);
         accountRepository.save(new Account(accountRegisterDto.getUsername(), encodedPassword, Set.of(authority)));
         return new AccountInfoDto(accountRegisterDto.getUsername());
+    }
+
+    @Override
+    @Transactional
+    public void disableAccountById(Long id) {
+        accountRepository.disableAccount(id);
+    }
+
+    @Override
+    public void deleteAccountById(Long id) {
+        accountRepository.deleteById(id);
     }
 
 }
