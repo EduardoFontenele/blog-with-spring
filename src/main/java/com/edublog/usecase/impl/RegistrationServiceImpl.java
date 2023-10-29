@@ -25,12 +25,9 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Override
     public AccountInfoDto registerAccount(AccountRegisterDto accountRegisterDto) {
         String encodedPassword = passwordEncoder.encode(accountRegisterDto.getPassword());
-
         Set<Authority> authorities = new HashSet<>();
-        authorities.add(Authority.builder().type(AuthorityTable.USER).build());
-
+        authorities.add(Authority.builder().type(AuthorityTable.ROLE_USER.toString()).build());
         accountRepository.save(new Account(accountRegisterDto.getUsername(), encodedPassword, authorities));
-
         return new AccountInfoDto(accountRegisterDto.getUsername());
     }
 }

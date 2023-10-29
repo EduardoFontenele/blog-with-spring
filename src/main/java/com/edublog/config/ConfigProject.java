@@ -25,16 +25,15 @@ public class ConfigProject implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         if(authorityRepository.count() < 3) {
-            Authority adminAuthority = authorityRepository.save(Authority.builder().type(AuthorityTable.ADMIN).build());
-            Authority userAuthority = authorityRepository.save(Authority.builder().type(AuthorityTable.USER).build());
+            Authority adminAuthority = authorityRepository.save(Authority.builder().type(AuthorityTable.ROLE_ADMIN.toString()).build());
+            Authority userAuthority = authorityRepository.save(Authority.builder().type(AuthorityTable.ROLE_USER.toString()).build());
 
             authorityRepository.saveAll(Arrays.asList(adminAuthority, userAuthority));
         }
 
         if(accountRepository.count() < 2) {
             Set<Authority> authorities1 = new HashSet<>();
-            authorities1.add(authorityRepository.findByType(AuthorityTable.ADMIN));
-            authorities1.add(authorityRepository.findByType(AuthorityTable.USER));
+            authorities1.add(authorityRepository.findByType(AuthorityTable.ROLE_USER.toString()));
 
             Account account1 = accountRepository.save(Account.builder()
                         .authorities(authorities1)
@@ -43,10 +42,11 @@ public class ConfigProject implements CommandLineRunner {
                     .build());
 
             Set<Authority> authorities2 = new HashSet<>();
-            authorities2.add(authorityRepository.findByType(AuthorityTable.USER));
+            authorities2.add(authorityRepository.findByType(AuthorityTable.ROLE_USER.toString()));
+
             Account account2 = accountRepository.save(Account.builder()
                             .authorities(authorities2)
-                            .username("mia.m")
+                            .username("john.doe")
                             .password(passwordEncoder.encode("user123"))
                     .build());
         }

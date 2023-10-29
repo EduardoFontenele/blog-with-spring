@@ -4,7 +4,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
-@RequiredArgsConstructor
+
+
 @Getter
 public enum ExceptionsTemplate {
     USER_ALREADY_EXISTS(HttpStatus.CONFLICT, "User with username '[item]' already exists", 409),
@@ -14,4 +15,11 @@ public enum ExceptionsTemplate {
     private final HttpStatus httpStatus;
     private final String message;
     private final Integer httpStatusCode;
+
+    ExceptionsTemplate(HttpStatus httpStatus, String message, Integer httpStatusCode) {
+        this.httpStatus = httpStatus;
+        this.message = message;
+        this.httpStatusCode = httpStatusCode;
+    }
+
 }

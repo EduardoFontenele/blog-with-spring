@@ -1,5 +1,6 @@
 package com.edublog.config;
 
+import com.edublog.domain.enums.AuthorityTable;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -23,7 +24,7 @@ public class BlogSecurityConfig {
                         "/articles/create_new",
                         "articles/update_by_id/*",
                         "articles/delete_by_id/*"
-                ).authenticated()
+                ).hasAnyRole(AuthorityTable.ROLE_USER.getRole(), AuthorityTable.ROLE_ADMIN.getRole())
         );
         http.csrf(AbstractHttpConfigurer::disable);
         http.cors(Customizer.withDefaults());
