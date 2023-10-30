@@ -49,7 +49,7 @@ public class Account {
     @JsonIgnore
     private Set<Authority> authorities;
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private List<Article> articles;
 
     public Account(String username, String password, Set<Authority> authorities) {
