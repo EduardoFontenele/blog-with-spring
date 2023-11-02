@@ -10,12 +10,17 @@ import com.edublog.exception.ExceptionsTemplate;
 import com.edublog.usecase.ArticleService;
 import com.edublog.validation.ArticleValidator;
 import jakarta.validation.constraints.Min;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +34,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
+import java.util.concurrent.atomic.AtomicReference;
 
 @RestController
 @RequiredArgsConstructor
@@ -40,9 +46,10 @@ public class ArticlesController {
 
     @PostMapping("/create_new")
     public ResponseEntity<ArticlePostDtoOutput> createNewArticle(
-            @RequestBody @Validated ArticlePostDtoInput publicationIPostDtoInput,
-            @CurrentSecurityContext(expression = "authentication") Authentication authentication
+            @CurrentSecurityContext(expression = "authentication") Authentication authentication,
+            @RequestBody @Validated ArticlePostDtoInput publicationIPostDtoInput
             ) {
+
         return ResponseEntity
                 .created(URI.create(""))
                 .body(articleService.createNewArticle(publicationIPostDtoInput, authentication.getName()));
@@ -52,7 +59,8 @@ public class ArticlesController {
     public ResponseEntity<Page<ArticleGetDto>> listAll(
             @CurrentSecurityContext(expression = "authentication") Authentication authentication,
             @Validated @RequestParam(required = false) @Min(1) Integer pageNumber,
-            @Validated @RequestParam(required = false) @Min(1) Integer pageSize) {
+            @Validated @RequestParam(required = false) @Min(1) Integer pageSize
+    ) {
         return ResponseEntity.ok(articleService.listAllArticles(authentication.getName(), pageNumber, pageSize));
     }
 
