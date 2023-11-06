@@ -38,4 +38,11 @@ public class Profile {
     @OneToOne
     @JsonIgnore
     private Account account;
+
+    public Profile(String name, String biography, String email, Account account) {
+        this.name = name;
+        this.biography = biography;
+        this.email = email;
+        this.account = account;
+    }
 }

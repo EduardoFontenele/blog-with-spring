@@ -28,10 +28,11 @@ public class AccountsController {
     private final AccountValidator accountValidator;
 
     @PostMapping("/register")
-    public ResponseEntity<AccountInfoDto> registerAccount(@Validated @RequestBody AccountRegisterDto dto) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void registerAccount(@Validated @RequestBody AccountRegisterDto dto) {
         if(accountValidator.accountExistsInDatabase(dto.getUsername()))
             throw new BusinessException(ExceptionsTemplate.USER_ALREADY_EXISTS, dto.getUsername());
-        return ResponseEntity.ok(registrationService.registerAccount(dto));
+        registrationService.registerAccount(dto);
     }
 
     @PatchMapping("/disable_by_id/{id}")

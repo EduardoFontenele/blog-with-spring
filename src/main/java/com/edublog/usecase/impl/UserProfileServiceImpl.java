@@ -1,5 +1,6 @@
 package com.edublog.usecase.impl;
 
+import com.edublog.adapter.ProfileMapper;
 import com.edublog.domain.dto.profile.ProfilePostDtoInput;
 import com.edublog.domain.dto.profile.ProfilePostDtoOutput;
 import com.edublog.domain.model.Account;
@@ -18,34 +19,13 @@ public class UserProfileServiceImpl implements UserProfileService {
 
     private final UserProfileRepository userProfileRepository;
     private final AccountRepository accountRepository;
+    private final ProfileMapper profileMapper = ProfileMapper.INSTANCE;
 
     @Override
     public ProfilePostDtoOutput createNewUserProfile(ProfilePostDtoInput userProfile, String username) {
         Account account = accountRepository.findByUsername(username).orElseThrow(() ->
                 new BusinessException(ExceptionsTemplate.BAD_REQUEST));
-
-        Profile profile = new Profile();
-        profile.setName(userProfile.getName());
-        profile.setBiography(userProfile.getBiography());
-        profile.setEmail(userProfile.getEmail());
-        profile.setAccount(account);
-
-        userProfileRepository.save(profile);
-
-        String articlesWritten;
-
-        if(account.getArticles().isEmpty()) {
-            articlesWritten = "0 Artigos";
-        } else {
-            articlesWritten = String.format("%d Artigos", account.getArticles().size());
-        }
-
-        return ProfilePostDtoOutput.builder()
-                .username(username)
-                .name(profile.getName())
-                .email(profile.getEmail())
-                .biography(profile.getBiography())
-                .articlesWritten(articlesWritten)
-                .build();
+        Profile profile = userProfileRepository.save(profileMapper.toEntity(userProfile, account));
+        return profileMapper.toPostOutputDto(profile, username, account);
     }
 }
