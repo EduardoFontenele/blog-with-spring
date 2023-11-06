@@ -9,8 +9,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
@@ -49,8 +47,8 @@ public class Account {
     @JsonIgnore
     private Set<Authority> authorities;
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-    private List<Article> articles;
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Article> articles = new ArrayList<>();
 
     public Account(String username, String password, Set<Authority> authorities) {
         this.username = username;
