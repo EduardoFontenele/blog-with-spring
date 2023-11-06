@@ -34,8 +34,8 @@ public class BlogSecurityConfig {
                                 "api/users/create_new"
                         ).hasAnyRole(ADMIN, MOD, USER)
                         .requestMatchers(
-                                "api/accounts/disable_by_id/*",
-                                "api/accounts/delete_by_id/*"
+                                "api/admin/disable_by_id/*",
+                                "api/admin/delete_by_id/*"
                         ).hasRole(ADMIN))
                 .httpBasic(Customizer.withDefaults());
         return http.build();
