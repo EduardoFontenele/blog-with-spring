@@ -26,4 +26,8 @@ public class Pagination {
 
         return PageRequest.of(queryPageNumber, queryPageSize);
     }
+
+    public static PageRequest buildPageRequest() {
+        return PageRequest.of(DEFAULT_PAGE_NUMBER, DEFAULT_PAGE_SIZE);
+    }
 }

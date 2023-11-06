@@ -2,6 +2,7 @@ package com.edublog.adapter;
 
 import com.edublog.domain.dto.profile.ProfilePostDtoInput;
 import com.edublog.domain.dto.profile.ProfilePostDtoOutput;
+import com.edublog.domain.dto.profile.ProfileResearchGetDto;
 import com.edublog.domain.model.Account;
 import com.edublog.domain.model.Article;
 import com.edublog.domain.model.Profile;
@@ -24,11 +25,19 @@ public abstract class ProfileMapper {
     @Mapping(source = "entity.name", target = "name")
     @Mapping(source = "entity.biography", target = "biography")
     @Mapping(source = "entity.email", target = "email")
+    @Mapping(source = "entity.account.articles", target = "articlesWritten", qualifiedByName = "displayArticlesWritten")
+    public abstract ProfilePostDtoOutput toPostOutputDto(Profile entity, String username);
+
+    @Mapping(source = "account.username", target = "username")
+    @Mapping(source = "name", target = "name")
     @Mapping(source = "account.articles", target = "articlesWritten", qualifiedByName = "displayArticlesWritten")
-    public abstract ProfilePostDtoOutput toPostOutputDto(Profile entity, String username, Account account);
+    public abstract ProfileResearchGetDto toResearchGetDto(Profile entity);
 
     @Named("displayArticlesWritten")
     public String displayArticlesWritten(List<Article> articles) {
-        return articles.isEmpty() ? "0 Artigos" : String.format("%d Artigos", articles.size());
+        if(articles.isEmpty()) {
+            return "0 Artigos";
+        }
+        return articles.size() == 1 ? "1 Artigo" : String.format("%d Artigos", articles.size());
     }
 }

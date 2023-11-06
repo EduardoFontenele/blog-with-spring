@@ -24,7 +24,8 @@ public class BlogSecurityConfig {
                 .authorizeHttpRequests(req -> req
                         .requestMatchers(
                                 "api/accounts/register",
-                                "api/articles/list_all"
+                                "api/articles/list_all",
+                                "api/users/find_users"
                         ).permitAll()
                         .requestMatchers(
                                 "api/articles/create_new",

@@ -2,10 +2,12 @@ package com.edublog.endpoint;
 
 import com.edublog.domain.dto.profile.ProfilePostDtoInput;
 import com.edublog.domain.dto.profile.ProfilePostDtoOutput;
+import com.edublog.domain.dto.profile.ProfileResearchGetDto;
 import com.edublog.domain.model.Profile;
 import com.edublog.usecase.UserProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.validation.annotation.Validated;
@@ -29,4 +31,8 @@ public class UsersController {
         return userProfileService.createNewUserProfile(userProfile, authentication.getName());
     }
 
+    @GetMapping("/find_users")
+    public ResponseEntity<Page<ProfileResearchGetDto>> listAllUsers() {
+       return ResponseEntity.ok(userProfileService.listAll());
+    }
 }
