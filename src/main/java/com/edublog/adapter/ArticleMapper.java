@@ -22,6 +22,21 @@ import java.util.List;
 public abstract class ArticleMapper {
     public static ArticleMapper INSTANCE = Mappers.getMapper(ArticleMapper.class);
 
+    @Mapping(source = "article.id", target = "id")
+    @Mapping(source = "article.title", target = "title")
+    @Mapping(source = "article.body", target = "body")
+    @Mapping(source = "article.createdAt", target = "createdAt", qualifiedByName = "formatLocalDateTime")
+    @Mapping(source = "article.updatedAt", target = "updatedAt", qualifiedByName = "formatLocalDateTime")
+    @Mapping(source = "article.account.username", target = "author")
+    @Mapping(source = "comments", target = "comments")
+    public abstract ArticlesWithCommentsGetDto toArticlesWithCommentsDto(Article article, List<CommentGetDto> comments);
+
+    @Named("formatLocalDateTime")
+    public String formatDateTime(LocalDateTime localDate) {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        return dateTimeFormatter.format(localDate);
+    }
+
     @Mapping(source = "title", target = "title")
     @Mapping(source = "body", target = "body")
     @Mapping(source = "createdAt", target = "createdAt", qualifiedByName = "formatLocalDateTime")
@@ -45,23 +60,12 @@ public abstract class ArticleMapper {
     @Mapping(source = "account.username", target = "author")
     public abstract ArticlePatchDtoOutput toPatchOutputDto(Article entity);
 
-    @Mapping(source = "article.id", target = "id")
-    @Mapping(source = "article.title", target = "title")
-    @Mapping(source = "article.body", target = "body")
-    @Mapping(source = "article.createdAt", target = "createdAt", qualifiedByName = "formatLocalDateTime")
-    @Mapping(source = "article.updatedAt", target = "updatedAt", qualifiedByName = "formatLocalDateTime")
-    @Mapping(source = "article.account.username", target = "author")
-    @Mapping(source = "comments", target = "comments")
-    public abstract ArticlesWithCommentsGetDto toArticlesWithCommentsDto(Article article, List<CommentGetDto> comments);
+
 
     public Article toEntity(ArticlePostDtoInput dto, Account account) {
         return new Article(dto.getTitle(), dto.getBody(), account);
     }
 
-    @Named("formatLocalDateTime")
-    public String formatDateTime(LocalDateTime localDate) {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-        return dateTimeFormatter.format(localDate);
-    }
+
 
 }

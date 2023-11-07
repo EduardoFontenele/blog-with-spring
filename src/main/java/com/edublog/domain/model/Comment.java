@@ -26,17 +26,24 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @CreationTimestamp
+    LocalDateTime createdAt;
+
     @Column(length = 2000, nullable = false)
     private String comment;
 
     private String author;
-
-    @CreationTimestamp
-    LocalDateTime createdAt;
 
     @ManyToOne
     private Account account;
 
     @ManyToOne
     private Article article;
+
+    public Comment(String comment, String author, Account account, Article article) {
+        this.comment = comment;
+        this.author = author;
+        this.account = account;
+        this.article = article;
+    }
 }
