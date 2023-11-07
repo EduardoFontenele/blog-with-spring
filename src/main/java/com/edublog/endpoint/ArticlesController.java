@@ -5,6 +5,7 @@ import com.edublog.domain.dto.article.ArticlePatchDtoInput;
 import com.edublog.domain.dto.article.ArticlePatchDtoOutput;
 import com.edublog.domain.dto.article.ArticlePostDtoInput;
 import com.edublog.domain.dto.article.ArticlePostDtoOutput;
+import com.edublog.domain.dto.article.ArticlesWithCommentsGetDto;
 import com.edublog.exception.BusinessException;
 import com.edublog.exception.ExceptionsTemplate;
 import com.edublog.usecase.ArticleService;
@@ -62,6 +63,14 @@ public class ArticlesController {
             @Validated @RequestParam(required = false) @Min(1) Integer pageSize
     ) {
         return ResponseEntity.ok(articleService.listAllArticles(authentication.getName(), pageNumber, pageSize));
+    }
+
+    @GetMapping("/get_by_id/{id}")
+    public ResponseEntity<ArticlesWithCommentsGetDto> getArticleWithCommentsById(
+            @CurrentSecurityContext(expression = "authentication") Authentication authentication,
+            @PathVariable Long id
+    ) {
+        return ResponseEntity.ok(articleService.getArticleWithCommentsById(id, authentication.getName()));
     }
 
     @PatchMapping("/update_by_id/{id}")

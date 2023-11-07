@@ -1,9 +1,8 @@
 package com.edublog.repository;
 
-import com.edublog.domain.enums.AuthorityTable;
-import com.edublog.domain.model.Authority;
+import com.edublog.domain.model.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface AuthorityRepository extends JpaRepository<Authority, Long> {
-    Authority findByType(String role);
+public interface AuthorityRepository extends JpaRepository<Role, Long> {
+    Role findByType(String role);
 }

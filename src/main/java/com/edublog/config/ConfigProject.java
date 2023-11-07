@@ -2,7 +2,7 @@ package com.edublog.config;
 
 import com.edublog.domain.enums.AuthorityTable;
 import com.edublog.domain.model.Account;
-import com.edublog.domain.model.Authority;
+import com.edublog.domain.model.Role;
 import com.edublog.domain.model.Profile;
 import com.edublog.repository.AccountRepository;
 import com.edublog.repository.AuthorityRepository;
@@ -13,7 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Component
@@ -34,20 +33,20 @@ public class ConfigProject implements CommandLineRunner {
 
     private void loadAuthorities() {
         if(authorityRepository.count() < 1) {
-            Authority adminAuthority = authorityRepository.save(Authority.builder().type(AuthorityTable.ROLE_ADMIN.toString()).build());
+            Role adminRole = authorityRepository.save(Role.builder().type(AuthorityTable.ROLE_ADMIN.toString()).build());
         }
     }
 
     private void loadAccount() {
         if(accountRepository.count() < 1) {
-            Authority authority1 = authorityRepository.findByType(AuthorityTable.ROLE_ADMIN.toString());
-            Set<Authority> authorities1 = new HashSet<>();
-            authorities1.add(authority1);
+            Role role1 = authorityRepository.findByType(AuthorityTable.ROLE_ADMIN.toString());
+            Set<Role> authorities1 = new HashSet<>();
+            authorities1.add(role1);
             accountRepository.save(Account.builder()
                     .username("eduardo.fontenele")
                     .password(passwordEncoder.encode("admin123"))
                     .isEnabled(true)
-                    .authorities(authorities1)
+                    .roles(authorities1)
                     .build());
         }
     }

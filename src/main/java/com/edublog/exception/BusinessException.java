@@ -14,18 +14,19 @@ public class BusinessException extends RuntimeException {
     private final HttpStatus httpStatus;
     private final String message;
 
-    public BusinessException(ExceptionsTemplate exceptionsTemplate, String item) {
-        super();
-        this.httpStatusCode = exceptionsTemplate.getHttpStatusCode();
-        this.httpStatus = exceptionsTemplate.getHttpStatus();
-        this.message = exceptionsTemplate.getMessage().replace("[item]", item);
-    }
-
     public BusinessException(ExceptionsTemplate exceptionsTemplate) {
         super();
         this.httpStatusCode = exceptionsTemplate.getHttpStatusCode();
         this.httpStatus = exceptionsTemplate.getHttpStatus();
         this.message = exceptionsTemplate.getMessage();
+    }
+
+
+    public BusinessException(ExceptionsTemplate exceptionsTemplate, String item) {
+        super();
+        this.httpStatusCode = exceptionsTemplate.getHttpStatusCode();
+        this.httpStatus = exceptionsTemplate.getHttpStatus();
+        this.message = exceptionsTemplate.getMessage().replace("[item]", item);
     }
 
     public BusinessException(ExceptionsTemplate exceptionsTemplate, String item, String message) {

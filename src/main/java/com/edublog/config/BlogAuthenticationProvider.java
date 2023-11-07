@@ -1,7 +1,7 @@
 package com.edublog.config;
 
 import com.edublog.domain.model.Account;
-import com.edublog.domain.model.Authority;
+import com.edublog.domain.model.Role;
 import com.edublog.exception.BusinessException;
 import com.edublog.exception.ExceptionsTemplate;
 import com.edublog.repository.AccountRepository;
@@ -39,7 +39,7 @@ public class BlogAuthenticationProvider implements AuthenticationProvider {
             if(!account.getIsEnabled()) throw new BusinessException(ExceptionsTemplate.USER_IS_BANNED);
 
             if(passwordEncoder.matches(pwd, account.getPassword())) {
-                return new UsernamePasswordAuthenticationToken(userName, pwd, getGrantedAuthorities(account.getAuthorities()));
+                return new UsernamePasswordAuthenticationToken(userName, pwd, getGrantedAuthorities(account.getRoles()));
             } else {
                 throw new BadCredentialsException("Invalid password");
             }
@@ -48,10 +48,10 @@ public class BlogAuthenticationProvider implements AuthenticationProvider {
         }
     }
 
-    private List<GrantedAuthority> getGrantedAuthorities(Set<Authority> authorities) {
+    private List<GrantedAuthority> getGrantedAuthorities(Set<Role> authorities) {
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-        for (Authority authority : authorities) {
-            grantedAuthorities.add(new SimpleGrantedAuthority(authority.getType()));
+        for (Role role : authorities) {
+            grantedAuthorities.add(new SimpleGrantedAuthority(role.getType()));
         }
         return grantedAuthorities;
     }

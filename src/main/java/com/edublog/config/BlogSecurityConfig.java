@@ -31,7 +31,9 @@ public class BlogSecurityConfig {
                                 "api/articles/create_new",
                                 "api/articles/update_by_id/*",
                                 "api/articles/delete_by_id/*",
-                                "api/users/create_new"
+                                "api/articles/get_by_id/*",
+                                "api/users/create_new",
+                                "api/comments/create_new/*"
                         ).hasAnyRole(ADMIN, MOD, USER)
                         .requestMatchers(
                                 "api/admin/disable_by_id/*",

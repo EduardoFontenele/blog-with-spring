@@ -10,7 +10,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -45,15 +44,15 @@ public class Account {
 
     @OneToMany(fetch = FetchType.EAGER)
     @JsonIgnore
-    private Set<Authority> authorities;
+    private Set<Role> roles;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Article> articles = new ArrayList<>();
 
-    public Account(String username, String password, Set<Authority> authorities) {
+    public Account(String username, String password, Set<Role> roles) {
         this.username = username;
         this.password = password;
-        this.authorities = authorities;
+        this.roles = roles;
         this.isEnabled = true;
         this.articles = new ArrayList<>();
     }
