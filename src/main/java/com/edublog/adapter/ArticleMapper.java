@@ -12,11 +12,13 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Objects;
 
 @Mapper
 public abstract class ArticleMapper {
@@ -61,7 +63,11 @@ public abstract class ArticleMapper {
     @Named("formatLocalDateTime")
     public String formatDateTime(LocalDateTime localDate) {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-        return dateTimeFormatter.format(localDate);
+        if (Objects.isNull(localDate)) {
+            return dateTimeFormatter.format(LocalDateTime.now());
+        } else {
+            return dateTimeFormatter.format(localDate);
+        }
     }
 
 }

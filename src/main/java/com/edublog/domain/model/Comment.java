@@ -45,5 +45,6 @@ public class Comment {
         this.author = author;
         this.account = account;
         this.article = article;
+        this.createdAt = LocalDateTime.now();
     }
 }

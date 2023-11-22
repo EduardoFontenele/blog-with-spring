@@ -48,7 +48,7 @@ public class BlogAuthenticationProvider implements AuthenticationProvider {
         }
     }
 
-    private List<GrantedAuthority> getGrantedAuthorities(Set<Role> authorities) {
+    public List<GrantedAuthority> getGrantedAuthorities(Set<Role> authorities) {
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
         for (Role role : authorities) {
             grantedAuthorities.add(new SimpleGrantedAuthority(role.getType()));

@@ -12,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,6 +28,7 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
+@EqualsAndHashCode
 @Entity
 public class Account {
     @Id
@@ -40,7 +42,7 @@ public class Account {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    private Boolean isEnabled;
+    private Boolean isEnabled = true;
 
     @OneToMany(fetch = FetchType.EAGER)
     @JsonIgnore
@@ -56,5 +58,4 @@ public class Account {
         this.isEnabled = true;
         this.articles = new ArrayList<>();
     }
-
 }

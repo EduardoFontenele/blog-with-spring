@@ -42,17 +42,19 @@ public class ArticleServiceImpl implements ArticleService {
     public final CommentMapper commentMapper = CommentMapper.INSTANCE;
 
     @Override
-    public ArticlePostDtoOutput createNewArticle(ArticlePostDtoInput publication, String username) {
+    public ArticlePostDtoOutput createNewArticle(ArticlePostDtoInput articlePostDtoInput, String username) {
         Account user = accountRepository.findByUsername(username).orElseThrow(() ->
                 new BusinessException(ExceptionsTemplate.BAD_REQUEST));
-        Article savedPub = articleRepository.save(articleMapper.toEntity(publication, user));
-        return articleMapper.toPostOutputDto(savedPub);
+        Article mappedArticle = articleMapper.toEntity(articlePostDtoInput, user);
+        articleRepository.save(mappedArticle);
+        return articleMapper.toPostOutputDto(mappedArticle);
     }
 
     @Override
     public Page<ArticleGetDto> listAllArticles(String author, Integer pageNumber, Integer pageSize) {
         PageRequest pageRequest = Pagination.buildPageRequest(pageNumber, pageSize);
-        return articleRepository.findAll(pageRequest).map(articleMapper::toGetDto);
+        Page<Article> page = articleRepository.findAll(pageRequest);
+        return page.map(articleMapper::toGetDto);
     }
 
     @Override
