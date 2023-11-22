@@ -5,6 +5,7 @@ import com.edublog.domain.dto.account.AccountRegisterDto;
 import com.edublog.domain.enums.AuthorityTable;
 import com.edublog.domain.model.Account;
 import com.edublog.domain.model.Role;
+import com.edublog.fixtures.AccountFixture;
 import com.edublog.repository.AccountRepository;
 import com.edublog.repository.AuthorityRepository;
 import fixture.ValidAccountTemplate;
@@ -51,10 +52,7 @@ public class RegistrationServiceTest {
     @DisplayName("Given a valid input, should register a user")
     void testRegisterAccountSucceeds() {
         //given
-        AccountRegisterDto input = AccountRegisterDto.builder()
-                .username(USERNAME)
-                .password(PASSWORD)
-                .build();
+        AccountRegisterDto input = AccountFixture.gimmeValidAccountRegisterDtoFixture();
         String encodedPwd = passwordEncoder.encode(input.getPassword());
         Role role = Role.builder().type(ROLE_USER).build();
         Account account = new Account(input.getUsername(), encodedPwd, Set.of(role));

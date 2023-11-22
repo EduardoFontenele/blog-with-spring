@@ -30,6 +30,8 @@ public class CommentServiceImpl implements CommentService {
                 .orElseThrow(() -> new BusinessException(ExceptionsTemplate.RESOURCE_NOT_FOUND, articleId.toString(), "Article doesn't exist"));
         Account account = accountRepository.findByUsername(username)
                 .orElseThrow(() -> new BusinessException(ExceptionsTemplate.RESOURCE_NOT_FOUND));
-        return commentMapper.toGetDto(commentsRepository.save(commentMapper.toEntity(article, account, username, dto)));
+        Comment savedComment = commentMapper.toEntity(article, account, username, dto);
+        commentsRepository.save(savedComment);
+        return commentMapper.toGetDto(savedComment);
     }
 }

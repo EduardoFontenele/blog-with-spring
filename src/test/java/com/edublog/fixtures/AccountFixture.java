@@ -1,5 +1,6 @@
 package com.edublog.fixtures;
 
+import com.edublog.domain.dto.account.AccountRegisterDto;
 import com.edublog.domain.model.Account;
 import com.edublog.domain.model.Article;
 import com.edublog.domain.model.Role;
@@ -17,5 +18,12 @@ public class AccountFixture {
                 .roles(new HashSet<>(Collections.singletonList(new Role(1L, "ROLE_USER"))))
                 .articles(List.of(new Article()))
                 .build();
+    }
+
+    public static AccountRegisterDto gimmeValidAccountRegisterDtoFixture() {
+        AccountRegisterDto dto = new AccountRegisterDto();
+        dto.setUsername("validUser");
+        dto.setPassword("validPassword");
+        return dto;
     }
 }

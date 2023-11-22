@@ -16,6 +16,7 @@ import com.edublog.exception.BusinessException;
 import com.edublog.exception.ExceptionsTemplate;
 import com.edublog.fixtures.AccountFixture;
 import com.edublog.fixtures.ArticleFixture;
+import com.edublog.fixtures.CommentFixture;
 import com.edublog.repository.AccountRepository;
 import com.edublog.repository.ArticleRepository;
 import com.edublog.repository.CommentsRepository;
@@ -145,7 +146,7 @@ class ArticleServiceImplTest {
         //given
         ArticlePatchDtoInput input = new ArticlePatchDtoInput("New title", "New body");
         Long id = 1L;
-        Article foundArticle = new Article("Old title", "Old body", new Account());
+        Article foundArticle = ArticleFixture.gimmeValidArticleEntity();
         given(articleRepository.findById(id)).willReturn(Optional.of(foundArticle));
 
         //when
@@ -177,7 +178,7 @@ class ArticleServiceImplTest {
         //given
         ArticlePatchDtoInput input = new ArticlePatchDtoInput("New title", null);
         Long id = 1L;
-        Article foundArticle = new Article("Old title", "Old body", new Account());
+        Article foundArticle = ArticleFixture.gimmeValidArticleEntity();
         given(articleRepository.findById(id)).willReturn(Optional.of(foundArticle));
 
         //when
@@ -195,7 +196,7 @@ class ArticleServiceImplTest {
         //given
         ArticlePatchDtoInput input = new ArticlePatchDtoInput(null, "New Body");
         Long id = 1L;
-        Article foundArticle = new Article("Old title", "Old body", new Account());
+        Article foundArticle = ArticleFixture.gimmeValidArticleEntity();
         given(articleRepository.findById(id)).willReturn(Optional.of(foundArticle));
 
         //when
@@ -223,8 +224,8 @@ class ArticleServiceImplTest {
         //given
         Long id = 1L;
         String author = "author";
-        List<Comment> commentsEntityList = List.of(new Comment("A comment", author, new Account(), new Article()));
-        Article article = new Article();
+        List<Comment> commentsEntityList = CommentFixture.gimmeValidCommentList();
+        Article article = ArticleFixture.gimmeValidArticleEntity();
 
         given(commentsRepository.findAll()).willReturn(commentsEntityList);
         given(articleRepository.findById(id)).willReturn(Optional.of(article));
@@ -235,7 +236,7 @@ class ArticleServiceImplTest {
         //then
         assertThat(result).isNotNull();
         assertThat(result.getComments().size()).isEqualTo(1);
-        assertThat(result.getComments().get(0).getComment()).isEqualTo("A comment");
-        assertThat(result.getComments().get(0).getAuthor()).isEqualTo(author);
+        assertThat(result.getComments().get(0).getComment()).isEqualTo(CommentFixture.gimmeValidCommentFixture().getComment());
+        assertThat(result.getComments().get(0).getAuthor()).isEqualTo(CommentFixture.gimmeValidCommentFixture().getAuthor());
     }
 }
