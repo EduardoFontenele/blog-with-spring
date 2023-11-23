@@ -4,6 +4,7 @@ import com.edublog.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+@SuppressWarnings("ALL")
 @Service
 @RequiredArgsConstructor
 public class ArticleValidator {

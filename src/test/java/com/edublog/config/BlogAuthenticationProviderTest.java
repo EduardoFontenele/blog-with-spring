@@ -29,10 +29,8 @@ import static org.mockito.Mockito.verify;
 class BlogAuthenticationProviderTest {
     @Mock
     private AccountRepository accountRepository;
-
     @Mock
     private PasswordEncoder passwordEncoder;
-
     @InjectMocks
     private BlogAuthenticationProvider authenticationProvider;
 

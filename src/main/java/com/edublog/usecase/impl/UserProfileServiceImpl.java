@@ -36,6 +36,7 @@ public class UserProfileServiceImpl implements UserProfileService {
     @Override
     public Page<ProfileResearchGetDto> listAll() {
         PageRequest pageRequest = Pagination.buildPageRequest();
-        return userProfileRepository.findAll(pageRequest).map(profileMapper::toResearchGetDto);
+        Page<Profile> page = userProfileRepository.findAll(pageRequest);
+        return page.map(profileMapper::toResearchGetDto);
     }
 }

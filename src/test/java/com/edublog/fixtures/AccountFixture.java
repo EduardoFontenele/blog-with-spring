@@ -12,7 +12,7 @@ import java.util.List;
 public class AccountFixture {
     public static Account gimmeValidAccountFixture() {
         return Account.builder()
-                .username("validUser")
+                .username("John Doe")
                 .password("validPassword")
                 .isEnabled(true)
                 .roles(new HashSet<>(Collections.singletonList(new Role(1L, "ROLE_USER"))))
@@ -22,7 +22,7 @@ public class AccountFixture {
 
     public static AccountRegisterDto gimmeValidAccountRegisterDtoFixture() {
         AccountRegisterDto dto = new AccountRegisterDto();
-        dto.setUsername("validUser");
+        dto.setUsername("John Doe");
         dto.setPassword("validPassword");
         return dto;
     }

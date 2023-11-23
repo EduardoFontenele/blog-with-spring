@@ -6,17 +6,17 @@ import com.edublog.domain.dto.comment.CommentPostInputDto;
 import com.edublog.domain.model.Account;
 import com.edublog.domain.model.Article;
 import com.edublog.domain.model.Comment;
+import com.edublog.exception.BusinessException;
+import com.edublog.exception.ExceptionsTemplate;
 import com.edublog.fixtures.AccountFixture;
 import com.edublog.fixtures.ArticleFixture;
 import com.edublog.fixtures.CommentFixture;
 import com.edublog.repository.AccountRepository;
 import com.edublog.repository.ArticleRepository;
 import com.edublog.repository.CommentsRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -26,7 +26,7 @@ import org.mockito.quality.Strictness;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
@@ -64,5 +64,45 @@ class CommentServiceImplTest {
         //then
         assertThat(result).isNotNull();
         assertThat(result.getComment()).isEqualTo(input.getComment());
+    }
+
+    @Test
+    @DisplayName("Given a nonexistent ARTICLE, should throw BusinessException of NOT FOUND type")
+    void testCreateNewCommentFailsDueNonexistentArticle() {
+        Long articleId = 30L;
+        CommentPostInputDto inputDto = new CommentPostInputDto();
+        String user = "user";
+
+        given(articleRepository.findById(articleId)).willReturn(Optional.empty());
+
+        BusinessException exception = assertThrows(BusinessException.class, () ->
+                commentService.createNewComment(inputDto, articleId, user)
+        );
+
+        assertThat(exception.getClass()).isEqualTo(BusinessException.class);
+        assertThat(exception.getHttpStatusCode()).isEqualTo(ExceptionsTemplate.RESOURCE_NOT_FOUND.getHttpStatusCode());
+        assertThat(exception.getMessage()).isEqualTo("Article doesn't exist");
+        assertThat(exception.getHttpStatus()).isEqualTo(ExceptionsTemplate.RESOURCE_NOT_FOUND.getHttpStatus());
+    }
+
+    @Test
+    @DisplayName("Given a nonexistent ACCOUNT, should throw BusinessException of NOT FOUND type")
+    void testCreateNewCommentFailsDueNonexistentAccount() {
+        Long articleId = 30L;
+        CommentPostInputDto inputDto = new CommentPostInputDto();
+        String user = "user";
+        Article foundArticle = ArticleFixture.gimmeValidArticleEntity();
+
+        given(articleRepository.findById(articleId)).willReturn(Optional.of(foundArticle));
+        given(accountRepository.findByUsername(user)).willReturn(Optional.empty());
+
+        BusinessException exception = assertThrows(BusinessException.class, () ->
+                commentService.createNewComment(inputDto, articleId, user)
+        );
+
+        assertThat(exception.getClass()).isEqualTo(BusinessException.class);
+        assertThat(exception.getHttpStatusCode()).isEqualTo(ExceptionsTemplate.RESOURCE_NOT_FOUND.getHttpStatusCode());
+        assertThat(exception.getMessage()).isEqualTo(ExceptionsTemplate.RESOURCE_NOT_FOUND.getMessage());
+        assertThat(exception.getHttpStatus()).isEqualTo(ExceptionsTemplate.RESOURCE_NOT_FOUND.getHttpStatus());
     }
 }
