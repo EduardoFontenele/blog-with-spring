@@ -11,8 +11,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Configuration
+@EnableWebSecurity
 public class BlogSecurityConfig {
     private final String ADMIN = AuthorityTable.ROLE_ADMIN.getRole();
     private final String MOD = AuthorityTable.ROLE_MODERATOR.getRole();
@@ -20,10 +22,7 @@ public class BlogSecurityConfig {
 
     @Bean
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception{
-        http
-                .csrf(AbstractHttpConfigurer::disable)
-                .cors(Customizer.withDefaults())
-                .authorizeHttpRequests(req -> req
+        http.authorizeHttpRequests(req -> req
                         .requestMatchers(
                                 "/api/accounts/register",
                                 "/api/articles/list_all",
@@ -41,7 +40,9 @@ public class BlogSecurityConfig {
                                 "api/admin/disable_by_id/*",
                                 "api/admin/delete_by_id/*"
                         ).hasRole(ADMIN))
-                .httpBasic(Customizer.withDefaults());
+                .httpBasic(Customizer.withDefaults())
+                .csrf(AbstractHttpConfigurer::disable)
+                .cors(Customizer.withDefaults());
         return http.build();
     }
 
