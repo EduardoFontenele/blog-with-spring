@@ -66,10 +66,6 @@ public class ArticlesController {
             @Validated @RequestParam(required = false) @Min(1) Integer pageNumber,
             @Validated @RequestParam(required = false) @Min(1) Integer pageSize
     ) {
-        Page<ArticleGetDto> content = new PageImpl<>(
-                Arrays.asList(new ArticleGetDto(), new ArticleGetDto()),
-                PageRequest.of(0, 2),
-                2);
         Page<ArticleGetDto> returnedPage = articleService.listAllArticles(authentication.getName(), pageNumber, pageSize);
         return new ResponseEntity<>(returnedPage, HttpStatus.OK);
     }
