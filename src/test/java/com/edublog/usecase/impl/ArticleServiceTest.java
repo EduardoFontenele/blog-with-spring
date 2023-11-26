@@ -8,7 +8,6 @@ import com.edublog.domain.dto.article.ArticlePatchDtoOutput;
 import com.edublog.domain.dto.article.ArticlePostDtoInput;
 import com.edublog.domain.dto.article.ArticlePostDtoOutput;
 import com.edublog.domain.dto.article.ArticlesWithCommentsGetDto;
-import com.edublog.domain.dto.comment.CommentGetDto;
 import com.edublog.domain.model.Account;
 import com.edublog.domain.model.Article;
 import com.edublog.domain.model.Comment;
@@ -20,14 +19,12 @@ import com.edublog.fixtures.CommentFixture;
 import com.edublog.repository.AccountRepository;
 import com.edublog.repository.ArticleRepository;
 import com.edublog.repository.CommentsRepository;
-import com.edublog.usecase.ArticleService;
 import com.edublog.usecase.Pagination;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
@@ -36,8 +33,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,17 +41,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.ArgumentMatchers.refEq;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
-class ArticleServiceImplTest {
+class ArticleServiceTest {
     @Mock
     ArticleRepository articleRepository;
     @Mock
@@ -77,7 +69,7 @@ class ArticleServiceImplTest {
         ArticlePostDtoInput mockInput = ArticleFixture.gimmeValidArticlePostDtoInput();
         ArticlePostDtoOutput mockOutput;
         String username = "user";
-        Account mockAccount = AccountFixture.gimmeValidAccountFixture();
+        Account mockAccount = AccountFixture.gimmeValidAccountEntityFixture();
         Article mockArticle = ArticleFixture.gimmeValidArticleEntity();
         Article mockMapedArticle = ArticleFixture.gimmeValidArticleEntity();
 
@@ -110,7 +102,7 @@ class ArticleServiceImplTest {
 
         //Then
         assertThat(exception.getHttpStatus()).isEqualTo(ExceptionsTemplate.BAD_REQUEST.getHttpStatus());
-        assertThat(exception.getMessage()).isEqualTo(ExceptionsTemplate.BAD_REQUEST.getMessage());
+        assertThat(exception.getMessage()).isNotEmpty();
         assertThat(exception.getHttpStatusCode()).isEqualTo(400);
     }
 

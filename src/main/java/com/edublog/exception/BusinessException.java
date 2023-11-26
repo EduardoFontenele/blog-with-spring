@@ -33,6 +33,8 @@ public class BusinessException extends RuntimeException {
         super();
         this.httpStatusCode = exceptionsTemplate.getHttpStatusCode();
         this.httpStatus = exceptionsTemplate.getHttpStatus();
-        this.message = message;
+        this.message = message.replace("[item]", item);
     }
+
+
 }

@@ -62,7 +62,8 @@ public class ArticlesController {
             @Validated @RequestParam(required = false) @Min(1) Integer pageNumber,
             @Validated @RequestParam(required = false) @Min(1) Integer pageSize
     ) {
-        return ResponseEntity.ok(articleService.listAllArticles(authentication.getName(), pageNumber, pageSize));
+        Page<ArticleGetDto> returnedPage = articleService.listAllArticles(authentication.getName(), pageNumber, pageSize);
+        return ResponseEntity.ok(returnedPage);
     }
 
     @GetMapping("/get_by_id/{id}")

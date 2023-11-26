@@ -12,7 +12,7 @@ public class CommentFixture {
                 .comment("This is a test comment.")
                 .author("John Doe")
                 .createdAt(LocalDateTime.parse("2023-11-09T15:30:00"))
-                .account(AccountFixture.gimmeValidAccountFixture())
+                .account(AccountFixture.gimmeValidAccountEntityFixture())
                 .article(ArticleFixture.gimmeValidArticleEntity()) // You may need to adjust this based on your Article creation logic
                 .build();
     }

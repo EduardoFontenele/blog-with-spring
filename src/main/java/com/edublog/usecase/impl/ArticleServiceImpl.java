@@ -44,7 +44,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public ArticlePostDtoOutput createNewArticle(ArticlePostDtoInput articlePostDtoInput, String username) {
         Account user = accountRepository.findByUsername(username).orElseThrow(() ->
-                new BusinessException(ExceptionsTemplate.BAD_REQUEST));
+                new BusinessException(ExceptionsTemplate.BAD_REQUEST, username, "User with username '[item]' not found"));
         Article mappedArticle = articleMapper.toEntity(articlePostDtoInput, user);
         articleRepository.save(mappedArticle);
         return articleMapper.toPostOutputDto(mappedArticle);

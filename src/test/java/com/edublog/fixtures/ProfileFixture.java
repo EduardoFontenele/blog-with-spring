@@ -12,7 +12,7 @@ public class ProfileFixture {
                 .name("John Doe")
                 .biography("A brief biography about John Doe.")
                 .email("john.doe@example.com")
-                .account(AccountFixture.gimmeValidAccountFixture()) // Using the AccountFixture to create an associated Account
+                .account(AccountFixture.gimmeValidAccountEntityFixture()) // Using the AccountFixture to create an associated Account
                 .build();
     }
 

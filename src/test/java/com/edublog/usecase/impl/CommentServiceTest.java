@@ -31,7 +31,7 @@ import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
-class CommentServiceImplTest {
+class CommentServiceTest {
     @Mock
     CommentsRepository commentsRepository;
     @Mock
@@ -48,10 +48,10 @@ class CommentServiceImplTest {
     void testCreateNewCommentSucceeds() {
         //given
         Long articleId = ArticleFixture.gimmeValidArticleEntity().getId();
-        String username = AccountFixture.gimmeValidAccountFixture().getUsername();
+        String username = AccountFixture.gimmeValidAccountEntityFixture().getUsername();
         CommentPostInputDto input = CommentFixture.gimmeValidCommentPostInputDtoFixture();
         Article article = ArticleFixture.gimmeValidArticleEntity();
-        Account account = AccountFixture.gimmeValidAccountFixture();
+        Account account = AccountFixture.gimmeValidAccountEntityFixture();
         Comment savedComment = CommentFixture.gimmeValidCommentFixture();
 
         given(articleRepository.findById(articleId)).willReturn(Optional.of(article));

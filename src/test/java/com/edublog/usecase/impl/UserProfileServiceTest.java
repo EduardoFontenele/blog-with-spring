@@ -13,11 +13,9 @@ import com.edublog.fixtures.ProfileFixture;
 import com.edublog.repository.AccountRepository;
 import com.edublog.repository.UserProfileRepository;
 import com.edublog.usecase.Pagination;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -27,8 +25,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +34,7 @@ import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
-class UserProfileServiceImplTest {
+class UserProfileServiceTest {
     @Mock
     UserProfileRepository userProfileRepository;
     @Mock
@@ -53,7 +49,7 @@ class UserProfileServiceImplTest {
     void testCreateNewUserProfileSucceeds() {
         ProfilePostDtoInput input = ProfileFixture.gimmeValidProfilePostDtoInputFixture();
         String username = "username";
-        Account account = AccountFixture.gimmeValidAccountFixture();
+        Account account = AccountFixture.gimmeValidAccountEntityFixture();
         Profile profile = ProfileFixture.gimmeValidProfileFixture();
         given(accountRepository.findByUsername(username)).willReturn(Optional.of(account));
         given(userProfileRepository.save(profile)).willReturn(profile);
@@ -95,7 +91,6 @@ class UserProfileServiceImplTest {
 
         //then
         assertThat(result).isNotNull();
-        //assertThat(result.getContent().size()).isEqualTo(profilePage.getSize());
         assertThat(result.getContent().get(0).getUsername()).isEqualTo(ProfileFixture.gimmeValidProfileFixture().getName());
     }
 }

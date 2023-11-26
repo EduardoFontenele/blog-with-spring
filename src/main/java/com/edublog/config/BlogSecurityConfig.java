@@ -5,10 +5,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.DefaultSecurityFilterChain;
+import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class BlogSecurityConfig {
@@ -17,15 +19,15 @@ public class BlogSecurityConfig {
     private final String USER = AuthorityTable.ROLE_USER.getRole();
 
     @Bean
-    DefaultSecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception{
+    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception{
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(req -> req
                         .requestMatchers(
-                                "api/accounts/register",
-                                "api/articles/list_all",
-                                "api/users/find_users"
+                                "/api/accounts/register",
+                                "/api/articles/list_all",
+                                "/api/users/find_users"
                         ).permitAll()
                         .requestMatchers(
                                 "api/articles/create_new",

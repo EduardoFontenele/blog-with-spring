@@ -40,7 +40,7 @@ class BlogAuthenticationProviderTest {
         // Given
         String username = "validUser";
         String password = "validPassword";
-        Account account = AccountFixture.gimmeValidAccountFixture();
+        Account account = AccountFixture.gimmeValidAccountEntityFixture();
         account.setPassword(passwordEncoder.encode(account.getPassword()));
 
         given(accountRepository.findByUsername(username)).willReturn(Optional.of(account));
@@ -66,7 +66,7 @@ class BlogAuthenticationProviderTest {
         String username = "validUser";
         String password = "validPassword";
         String failPassword = "wrongPassword";
-        Account account = AccountFixture.gimmeValidAccountFixture();
+        Account account = AccountFixture.gimmeValidAccountEntityFixture();
 
         given(accountRepository.findByUsername(username)).willReturn(Optional.of(account));
         given(passwordEncoder.matches(failPassword, account.getPassword())).willReturn(false);
