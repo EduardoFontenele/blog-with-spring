@@ -15,7 +15,10 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -35,11 +38,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
+import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicReference;
 
-@RestController
 @RequiredArgsConstructor
-@RequestMapping("api/articles")
+@RestController
+@RequestMapping(value = "api/articles")
 public class ArticlesController {
 
     private final ArticleService articleService;
@@ -56,14 +60,18 @@ public class ArticlesController {
                 .body(articleService.createNewArticle(publicationIPostDtoInput, authentication.getName()));
     }
 
-    @GetMapping("/list_all")
+    @GetMapping(value = "/list_all")
     public ResponseEntity<Page<ArticleGetDto>> listAll(
             @CurrentSecurityContext(expression = "authentication") Authentication authentication,
             @Validated @RequestParam(required = false) @Min(1) Integer pageNumber,
             @Validated @RequestParam(required = false) @Min(1) Integer pageSize
     ) {
+        Page<ArticleGetDto> content = new PageImpl<>(
+                Arrays.asList(new ArticleGetDto(), new ArticleGetDto()),
+                PageRequest.of(0, 2),
+                2);
         Page<ArticleGetDto> returnedPage = articleService.listAllArticles(authentication.getName(), pageNumber, pageSize);
-        return ResponseEntity.ok(returnedPage);
+        return new ResponseEntity<>(returnedPage, HttpStatus.OK);
     }
 
     @GetMapping("/get_by_id/{id}")
@@ -71,7 +79,7 @@ public class ArticlesController {
             @CurrentSecurityContext(expression = "authentication") Authentication authentication,
             @PathVariable Long id
     ) {
-        return ResponseEntity.ok(articleService.getArticleWithCommentsById(id, authentication.getName()));
+        return new ResponseEntity<>(articleService.getArticleWithCommentsById(id, authentication.getName()), HttpStatus.OK);
     }
 
     @PatchMapping("/update_by_id/{id}")
